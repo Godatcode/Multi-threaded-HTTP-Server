@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Multi-threaded HTTP Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        nav a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .content h2 {
+            color: #667eea;
+            margin: 30px 0 20px 0;
+            font-size: 2em;
+        }
+        
+        .api-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+        
+        .api-section h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+        
+        .method-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+        
+        .get {
+            background: #28a745;
+            color: white;
+        }
+        
+        .post {
+            background: #007bff;
+            color: white;
+        }
+        
+        .endpoint-list {
+            margin: 20px 0;
+        }
+        
+        .endpoint-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+        
+        .endpoint-item h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .test-button {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s;
+        }
+        
+        .test-button:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        #result {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            border-left: 5px solid #28a745;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📡 API Documentation</h1>
+        </header>
+        
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+        </nav>
+        
+        <div class="content">
+            <h2>API Endpoints</h2>
+            <p style="margin: 20px 0; font-size: 1.1em; color: #555;">
+                This server provides the following HTTP endpoints for testing and demonstration purposes.
+            </p>
+            
+            <div class="api-section">
+                <h3>GET Endpoints</h3>
+                <p>Retrieve HTML pages and download binary files</p>
+                
+                <div class="endpoint-list">
+                    <div class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        <h4>/</h4>
+                        <p>Returns the index.html page (home page)</p>
+                        <div class="code-block">
+curl http://localhost:8080/
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        <h4>/about.html</h4>
+                        <p>Returns the about page</p>
+                        <div class="code-block">
+curl http://localhost:8080/about.html
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        <h4>/logo.png</h4>
+                        <p>Downloads the logo.png file as binary</p>
+                        <div class="code-block">
+curl -O http://localhost:8080/logo.png
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        <h4>/sample1.txt</h4>
+                        <p>Downloads a text file as binary</p>
+                        <div class="code-block">
+curl -O http://localhost:8080/sample1.txt
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-section">
+                <h3>POST Endpoints</h3>
+                <p>Upload JSON data to the server</p>
+                
+                <div class="endpoint-list">
+                    <div class="endpoint-item">
+                        <span class="method-badge post">POST</span>
+                        <h4>/upload</h4>
+                        <p>Accepts JSON data and creates a file in resources/uploads/</p>
+                        
+                        <h4 style="margin-top: 15px;">Request Headers:</h4>
+                        <div class="code-block">
+Content-Type: application/json
+Host: localhost:8080
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Request Body:</h4>
+                        <div class="code-block">
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "message": "This is a test message"
+}
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Example with curl:</h4>
+                        <div class="code-block">
+curl -X POST http://localhost:8080/upload \
+  -H "Content-Type: application/json" \
+  -H "Host: localhost:8080" \
+  -d '{
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "Hello from HTTP Server!"
+  }'
+                        </div>
+                        
+                        <h4 style="margin-top: 15px;">Response (201 Created):</h4>
+                        <div class="code-block">
+{
+  "status": "success",
+  "message": "File created successfully",
+  "filepath": "/uploads/upload_20240315_123456_a7b9.json"
+}
+                        </div>
+                        
+                        <button class="test-button" onclick="testPostAPI()">🧪 Test POST API</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-section">
+                <h3>Error Responses</h3>
+                
+                <div class="endpoint-list">
+                    <div class="endpoint-item">
+                        <h4>400 Bad Request</h4>
+                        <p>Malformed request or missing Host header</p>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <h4>403 Forbidden</h4>
+                        <p>Unauthorized path access or Host mismatch</p>
+                        <div class="code-block">
+# Example: Path traversal attempt
+curl http://localhost:8080/../../../etc/passwd
+
+# Response: 403 Forbidden
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <h4>404 Not Found</h4>
+                        <p>Requested resource doesn't exist</p>
+                        <div class="code-block">
+curl http://localhost:8080/nonexistent.html
+
+# Response: 404 Not Found
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <h4>405 Method Not Allowed</h4>
+                        <p>HTTP method not supported (PUT, DELETE, etc.)</p>
+                        <div class="code-block">
+curl -X PUT http://localhost:8080/index.html
+
+# Response: 405 Method Not Allowed
+# Allow: GET, POST
+                        </div>
+                    </div>
+                    
+                    <div class="endpoint-item">
+                        <h4>415 Unsupported Media Type</h4>
+                        <p>Wrong Content-Type or unsupported file type</p>
+                        <div class="code-block">
+# Example: POST with wrong content type
+curl -X POST http://localhost:8080/upload \
+  -H "Content-Type: text/plain" \
+  -d "This is plain text"
+
+# Response: 415 Unsupported Media Type
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="api-section">
+                <h3>Testing the API</h3>
+                <p>Use the button below to test the POST API directly from this page:</p>
+                
+                <button class="test-button" onclick="testPostAPI()">📤 Send Test JSON</button>
+                <button class="test-button" onclick="testGetAPI()" style="background: #667eea;">📥 Test GET Request</button>
+                
+                <div id="result"></div>
+            </div>
+            
+            <h2>Python Test Script</h2>
+            <p style="margin: 20px 0; color: #555;">
+                Here's a Python script to test all endpoints:
+            </p>
+            
+            <div class="code-block">
+import requests
+import json
+
+# Test GET request
+response = requests.get('http://localhost:8080/')
+print(f"GET /: {response.status_code}")
+
+# Test binary file download
+response = requests.get('http://localhost:8080/logo.png')
+print(f"GET /logo.png: {response.status_code}, Size: {len(response.content)} bytes")
+
+# Test POST request
+data = {
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "Hello from Python!"
+}
+
+response = requests.post(
+    'http://localhost:8080/upload',
+    headers={'Content-Type': 'application/json'},
+    data=json.dumps(data)
+)
+
+print(f"POST /upload: {response.status_code}")
+print(f"Response: {response.json()}")
+
+# Test security - path traversal
+response = requests.get('http://localhost:8080/../etc/passwd')
+print(f"GET /../etc/passwd: {response.status_code} (should be 403)")
+
+# Test unsupported method
+response = requests.put('http://localhost:8080/index.html')
+print(f"PUT /index.html: {response.status_code} (should be 405)")
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Multi-threaded HTTP Server Project</p>
+            <p style="margin-top: 10px; opacity: 0.8;">API Documentation</p>
+        </footer>
+    </div>
+    
+    <script>
+        function testPostAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ Sending request...</p>';
+            
+            const testData = {
+                name: "Browser Test User",
+                email: "browser@example.com",
+                message: "This is a test from the browser!",
+                timestamp: new Date().toISOString()
+            };
+            
+            fetch('/upload', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.innerHTML = `
+                    <h4 style="color: #28a745;">✅ Success!</h4>
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Message:</strong> ${data.message}</p>
+                    <p><strong>File Path:</strong> ${data.filepath}</p>
+                    <div class="code-block" style="margin-top: 15px;">
+${JSON.stringify(testData, null, 2)}
+                    </div>
+                `;
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `
+                    <h4 style="color: #dc3545;">❌ Error</h4>
+                    <p>${error.message}</p>
+                `;
+            });
+        }
+        
+        function testGetAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ Testing GET request...</p>';
+            
+            fetch('/about.html')
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error(`HTTP ${response.status}`);
+            })
+            .then(html => {
+                resultDiv.innerHTML = `
+                    <h4 style="color: #28a745;">✅ GET Request Successful!</h4>
+                    <p><strong>Status:</strong> 200 OK</p>
+                    <p><strong>Content-Type:</strong> text/html</p>
+                    <p><strong>Size:</strong> ${html.length} bytes</p>
+                `;
+            })
+            .catch(error => {
+                resultDiv.innerHTML = `
+                    <h4 style="color: #dc3545;">❌ Error</h4>
+                    <p>${error.message}</p>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,44 @@
+Multi-threaded HTTP Server - Sample Text File 1
+==============================================
+
+This is a sample text file used to test binary file transfer capabilities
+of the HTTP server implementation.
+
+Key Features Being Tested:
+- Binary file reading (opened with 'rb' mode)
+- Content-Type: application/octet-stream
+- Content-Disposition: attachment header
+- Proper Content-Length calculation
+- File integrity during transfer
+
+Technical Details:
+- Buffer Size: 4096 bytes
+- Transfer Mode: Binary streaming
+- HTTP Method: GET
+- Status Code: 200 OK
+
+The server should serve this file as a downloadable attachment, not render it
+in the browser. This tests the proper implementation of binary file handling
+as specified in the project requirements.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+culpa qui officia deserunt mollit anim id est laborum.
+
+Test Data:
+----------
+ASCII Characters: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+Special Characters: !@#$%^&*()_+-=[]{}|;':",.<>?/`~
+Unicode Test: 你好世界 🚀 🔒 ⚡ 📁 ✅ ❌
+
+Binary Transfer Verification:
+- Original file size should match downloaded file size
+- Checksum (MD5/SHA256) should match before and after transfer
+- No data corruption during transmission
+
+This file contains exactly 1,547 bytes (excluding this line).
+

@@ -1,0 +1,21 @@
+# This project uses only Python 3 standard library
+# No external dependencies required for the server
+
+# Optional: For generating test images (setup only)
+# Pillow>=10.0.0
+
+# Note: The server itself has ZERO external dependencies
+# It only uses Python 3 standard library modules:
+# - socket
+# - threading
+# - queue
+# - json
+# - os
+# - pathlib
+# - datetime
+# - email.utils
+# - hashlib
+# - signal
+# - sys
+# - re
+

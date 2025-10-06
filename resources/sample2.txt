@@ -1,0 +1,67 @@
+HTTP Server Testing - Sample Text File 2
+=========================================
+
+This file is used to test multiple binary file downloads and ensure the server
+can handle various text files correctly.
+
+Project Requirements Validation:
+✓ Binary file transfer implementation
+✓ Content-Disposition header with filename
+✓ application/octet-stream Content-Type
+✓ Correct Content-Length header
+✓ Efficient buffered file reading
+
+Security Tests:
+- Path traversal protection: /../sample2.txt should be blocked
+- Host header validation: requests must include valid Host header
+- Resource isolation: files outside resources/ should be inaccessible
+
+Connection Management:
+- HTTP/1.1 persistent connections (keep-alive)
+- Connection timeout: 30 seconds
+- Maximum requests per connection: 100
+- Proper socket lifecycle management
+
+Thread Pool Architecture:
+- Default pool size: 10 threads
+- Connection queue for excess connections
+- Mutex synchronization for shared resources
+- Thread-safe request counter
+- Graceful shutdown mechanism
+
+Performance Characteristics:
+- Listen queue size: 50 pending connections
+- Maximum request size: 8192 bytes
+- Buffer size for file transfer: 4096 bytes
+- Socket timeout: 30 seconds for idle connections
+
+Logging Requirements:
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Connection from IP:PORT
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Request: GET /sample2.txt HTTP/1.1
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Host validation: localhost:8080 ✓
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Sending binary file: sample2.txt (XXXX bytes)
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Response: 200 OK (XXXX bytes transferred)
+[YYYY-MM-DD HH:MM:SS] [Thread-N] Connection: keep-alive
+
+HTTP Response Format for Binary Files:
+--------------------------------------
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Content-Length: [file size]
+Content-Disposition: attachment; filename="sample2.txt"
+Date: [RFC 7231 format]
+Server: Multi-threaded HTTP Server
+Connection: keep-alive
+Keep-Alive: timeout=30, max=100
+
+[Binary file data]
+
+Test Scenarios:
+1. ✅ Download this file using curl or wget
+2. ✅ Verify file size matches original
+3. ✅ Compare checksums (md5sum/sha256sum)
+4. ✅ Test concurrent downloads of multiple files
+5. ✅ Test persistent connection behavior
+
+End of Sample File 2 - Total size: approximately 2,150 bytes
+

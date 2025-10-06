@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-threaded HTTP Server - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        nav {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        nav a {
+            display: inline-block;
+            margin: 0 15px;
+            padding: 10px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        nav a:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .download-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #e8f4f8;
+            border-radius: 10px;
+        }
+        
+        .download-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .download-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .download-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #28a745;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Multi-threaded HTTP Server</h1>
+            <p>High-Performance Socket Programming Implementation</p>
+            <span class="status-badge">✓ Server Running</span>
+        </header>
+        
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about.html">About</a>
+            <a href="/contact.html">Contact</a>
+        </nav>
+        
+        <div class="content">
+            <h2>Welcome to the Multi-threaded HTTP Server!</h2>
+            <p style="margin: 20px 0; font-size: 1.1em; color: #555;">
+                This is a fully functional HTTP/1.1 server built from scratch using low-level socket programming.
+                It demonstrates advanced networking concepts including multi-threading, connection management,
+                and security features.
+            </p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🔄 Thread Pool</h3>
+                    <p>Configurable thread pool with intelligent connection queuing. Handles multiple concurrent
+                    clients efficiently with proper synchronization and mutex locks.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔒 Security</h3>
+                    <p>Built-in protection against path traversal attacks and host header validation.
+                    All requests are validated to ensure secure file access.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚡ Keep-Alive</h3>
+                    <p>HTTP persistent connections with configurable timeouts and request limits.
+                    Reduces overhead for multiple requests from the same client.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📁 File Serving</h3>
+                    <p>Serves HTML files for rendering and binary files (images, text) as downloads.
+                    Proper Content-Type and Content-Disposition headers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📝 JSON API</h3>
+                    <p>POST endpoint for JSON data processing. Automatically saves uploaded JSON
+                    with timestamped filenames and returns confirmation.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📊 Comprehensive Logging</h3>
+                    <p>Detailed logging of all requests, responses, security events, and thread pool
+                    status with timestamps for debugging and monitoring.</p>
+                </div>
+            </div>
+            
+            <div class="download-section">
+                <h2>📥 Test File Downloads</h2>
+                <p>Click the links below to test binary file transfer capabilities:</p>
+                <div class="download-links">
+                    <a href="/sample1.txt" class="download-btn">📄 Download sample1.txt</a>
+                    <a href="/sample2.txt" class="download-btn">📄 Download sample2.txt</a>
+                    <a href="/logo.png" class="download-btn">🖼️ Download logo.png</a>
+                    <a href="/photo.jpg" class="download-btn">🖼️ Download photo.jpg</a>
+                    <a href="/landscape.jpg" class="download-btn">🖼️ Download landscape.jpg</a>
+                </div>
+            </div>
+            
+            <h2>🔧 Server Configuration</h2>
+            <div class="code-block">
+python3 server.py [port] [host] [thread_pool_size]
+
+Examples:
+  python3 server.py                    # Run on 127.0.0.1:8080 with 10 threads
+  python3 server.py 8000               # Custom port
+  python3 server.py 8000 0.0.0.0       # Bind to all interfaces
+  python3 server.py 8000 0.0.0.0 20    # 20 worker threads
+            </div>
+            
+            <h2>📋 Supported HTTP Methods</h2>
+            <ul style="margin: 20px 0; padding-left: 40px; line-height: 2;">
+                <li><strong>GET</strong> - Retrieve HTML pages and download binary files</li>
+                <li><strong>POST</strong> - Upload JSON data to /upload endpoint</li>
+            </ul>
+            
+            <h2>✨ Technical Features</h2>
+            <ul style="margin: 20px 0; padding-left: 40px; line-height: 2;">
+                <li>Thread-safe connection queue with mutex synchronization</li>
+                <li>Configurable connection timeout (30 seconds default)</li>
+                <li>Maximum 100 requests per persistent connection</li>
+                <li>Support for requests up to 8192 bytes</li>
+                <li>4KB buffer size for efficient binary transfer</li>
+                <li>Automatic Content-Length calculation</li>
+                <li>RFC 7231 compliant Date headers</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Multi-threaded HTTP Server Project</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Built with Python 3 | Socket Programming | Threading</p>
+        </footer>
+    </div>
+</body>
+</html>
+

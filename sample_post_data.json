@@ -1,0 +1,22 @@
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "message": "This is a sample JSON file for testing POST requests",
+  "timestamp": "2024-10-06T10:30:00Z",
+  "data": {
+    "key1": "value1",
+    "key2": "value2",
+    "nested": {
+      "field": "nested value",
+      "number": 42,
+      "boolean": true
+    }
+  },
+  "tags": ["test", "http", "server", "json"],
+  "metadata": {
+    "version": "1.0",
+    "author": "Test User",
+    "description": "Sample JSON data for HTTP server testing"
+  }
+}
+
