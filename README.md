@@ -72,10 +72,6 @@ python3 test_client.py
 # Result: 12/12 tests passed (100%)
 ```
 
-## 🏆 Expected Grade
-
-**100/100 + Bonus** (All requirements met + extra features)
-
 ## 📞 Need Help?
 
 See **[Documentations/GETTING_STARTED.md](Documentations/GETTING_STARTED.md)** for detailed instructions.
