@@ -499,6 +499,24 @@ class HTTPServer:
                 log(f"[{thread_name}] Error reading file: {e}")
                 return self._error_response(500, "Internal Server Error")
         
+        elif ext == '.css':
+            # CSS files: serve with correct MIME type
+            try:
+                with open(file_path, 'rb') as f:
+                    content = f.read()
+                
+                headers = {
+                    'Content-Type': 'text/css; charset=utf-8'
+                }
+                
+                log(f"[{thread_name}] Serving CSS file: {path} ({len(content)} bytes)")
+                
+                return HTTPResponse(200, "OK", body=content, headers=headers, binary=True)
+                
+            except Exception as e:
+                log(f"[{thread_name}] Error reading CSS file: {e}")
+                return self._error_response(500, "Internal Server Error")
+        
         elif ext in ['.txt', '.png', '.jpg', '.jpeg']:
             # Binary files: send as octet-stream for download
             try:
